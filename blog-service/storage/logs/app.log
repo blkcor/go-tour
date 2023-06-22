@@ -3,3 +3,4 @@
 2023/06/22 14:45:49 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 31 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687416349200234000}
 2023/06/22 14:45:54 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 31 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687416354027972000}
 2023/06/22 15:14:41 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 31 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687418081692211000}
+2023/06/22 16:12:00 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 35 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687421520697854000}
