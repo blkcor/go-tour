@@ -6,7 +6,9 @@ import (
 	"github.com/go-programming-tour-book/blog-service/global"
 	"github.com/go-programming-tour-book/blog-service/internal/model"
 	"github.com/go-programming-tour-book/blog-service/internal/routers"
+	"github.com/go-programming-tour-book/blog-service/pkg/logger"
 	"github.com/go-programming-tour-book/blog-service/pkg/setting"
+	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"net/http"
 	"os"
@@ -25,10 +27,17 @@ func init() {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
 
+	//logger
+	err = setupLogger()
+	if err != nil {
+		log.Fatalf("init.setupLogger err: %v", err)
+	}
+
 }
 
 func main() {
 	gin.SetMode(global.ServerSetting.RunMode)
+	global.Mylogger.Infof("%s: my name is blkcor/%s", "eddycjy", "blog-service")
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,
@@ -46,6 +55,7 @@ func main() {
 	}
 }
 
+// setting
 func setupSetting() error {
 	s, err := setting.NewSetting()
 	if err != nil {
@@ -69,6 +79,19 @@ func setupSetting() error {
 	return nil
 }
 
+// logger
+func setupLogger() error {
+	global.Mylogger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
+		MaxSize:   600,
+		MaxAge:    10,
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+
+	return nil
+}
+
+// db engine
 func setupDBEngine() error {
 	var err error
 	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
