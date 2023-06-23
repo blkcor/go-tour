@@ -35,7 +35,7 @@ func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
 	var errs ValidErrors
 	err := c.ShouldBind(v)
 	if err != nil {
-		v := c.Value("trans")
+		v = c.Value("trans")
 		trans, _ := v.(ut.Translator)
 		verrs, ok := err.(val.ValidationErrors)
 		if !ok {
