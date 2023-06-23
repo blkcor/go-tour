@@ -58,7 +58,6 @@ func (t Tag) Update(db *gorm.DB, values interface{}) error {
 	if err := db.Model(t).Where("id = ? AND is_del = ?", t.ID, 0).Updates(values).Error; err != nil {
 		return err
 	}
-
 	return nil
 }
 
