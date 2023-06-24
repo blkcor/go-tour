@@ -22,11 +22,17 @@ func NewRouter() *gin.Engine {
 	article := v1.NewArticle()
 	tag := v1.NewTag()
 
+	//upload file and file server
 	upload := api.NewUpload()
 	r.POST("/upload/file", upload.UploadFile)
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 
+	//auth
+	r.POST("/auth", api.GetAuth)
+
 	apiv1 := r.Group("/api/v1")
+	//only /api/v1/* can be accessed after JWT verification
+	apiv1.Use(middleware.JWT())
 	{
 		apiv1.POST("/tags", tag.Create)
 		apiv1.DELETE("/tags/:id", tag.Delete)

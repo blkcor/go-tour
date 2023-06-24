@@ -44,6 +44,5 @@ func (r *Response) ToErrorResponse(err *errcode.Error) {
 	if len(details) > 0 {
 		response["details"] = details
 	}
-
-	r.Ctx.JSON(err.Code(), response)
+	r.Ctx.JSON(http.StatusInternalServerError, response)
 }
