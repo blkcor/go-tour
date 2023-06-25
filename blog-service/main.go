@@ -48,7 +48,6 @@ func init() {
 
 func main() {
 	gin.SetMode(global.ServerSetting.RunMode)
-	global.Mylogger.Infof("%s: my name is blkcor/%s", "eddycjy", "blog-service")
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,
