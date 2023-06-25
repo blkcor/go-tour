@@ -30,6 +30,7 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Translations())
 	r.Use(middleware.RateLimiter(limiter.NewMethodLimiter()))
 	r.Use(middleware.ContextTimeOut(60 * time.Second))
+	r.Use(middleware.Tracing())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	//handler
