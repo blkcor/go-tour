@@ -48,6 +48,12 @@ func init() {
 }
 
 func main() {
+	if isVersion {
+		fmt.Printf("build_time: %s\n", buildTime)
+		fmt.Printf("build_version: %s\n", buildVersion)
+		fmt.Printf("git_commit_id: %s\n", gitCommitID)
+	}
+
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
@@ -144,13 +150,18 @@ func setupTracer() error {
 }
 
 var (
-	port    string
-	runMode string
-	config  string
+	port         string
+	runMode      string
+	config       string
+	isVersion    bool
+	buildTime    string
+	buildVersion string
+	gitCommitID  string
 )
 
 // flag
 func setupFlag() error {
+	flag.BoolVar(&isVersion, "version", false, "编译信息")
 	flag.StringVar(&port, "port", "", "启动端口")
 	flag.StringVar(&runMode, "runMode", "", "运行模式")
 	flag.StringVar(&config, "config", "configs/", "指定运行配置文件路径")
