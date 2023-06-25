@@ -123,10 +123,14 @@ func (l *Logger) JSONFormat(level Level, message string) map[string]interface{} 
 func (l *Logger) WithTrace() *Logger {
 	ginCtx, ok := l.ctx.(*gin.Context)
 	if ok {
-		return l.WithFields(Fields{
-			"TraceID": ginCtx.Get("X-Trace-ID"),
-			"SpanID":  ginCtx.Get("X-Span-ID"),
-		})
+		traceID, traceIDExists := ginCtx.Get("X-Trace-ID")
+		spanID, spanIDExists := ginCtx.Get("X-Span-ID")
+		if traceIDExists && spanIDExists {
+			return l.WithFields(Fields{
+				"TraceID": traceID,
+				"SpanID":  spanID,
+			})
+		}
 	}
 	return l
 }
