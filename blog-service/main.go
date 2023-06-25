@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-programming-tour-book/blog-service/global"
@@ -13,6 +14,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -21,6 +23,8 @@ import (
 // @description Go 语言编程之旅：一起用 Go 做项目
 // @termsOfService https://github.com/go-programming-tour-book
 func init() {
+	//flag
+	_ = setupFlag()
 	//setting
 	err := setupSetting()
 	if err != nil {
@@ -31,19 +35,16 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
-
 	//logger
 	err = setupLogger()
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
 	}
-
 	//tracer
 	err = setupTracer()
 	if err != nil {
 		log.Fatalf("init.setupTracer err: %v", err)
 	}
-
 }
 
 func main() {
@@ -67,7 +68,7 @@ func main() {
 
 // setting
 func setupSetting() error {
-	s, err := setting.NewSetting()
+	s, err := setting.NewSetting(strings.Split(config, ",")...)
 	if err != nil {
 		return err
 	}
@@ -97,6 +98,15 @@ func setupSetting() error {
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
 	global.JWTSetting.Expire *= time.Second
+
+	//override port and runMode config
+	if port != "" {
+		global.ServerSetting.HttpPort = port
+	}
+
+	if runMode != "" {
+		global.ServerSetting.RunMode = runMode
+	}
 
 	return nil
 }
@@ -130,5 +140,21 @@ func setupTracer() error {
 		return err
 	}
 	global.Tracer = jaegerTracer
+	return nil
+}
+
+var (
+	port    string
+	runMode string
+	config  string
+)
+
+// flag
+func setupFlag() error {
+	flag.StringVar(&port, "port", "", "启动端口")
+	flag.StringVar(&runMode, "runMode", "", "运行模式")
+	flag.StringVar(&config, "config", "configs/", "指定运行配置文件路径")
+	flag.Parse()
+
 	return nil
 }
