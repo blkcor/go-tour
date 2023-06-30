@@ -32,7 +32,7 @@ Database:
 
 JWT:
   Secret: eddycjy
-  Issuer: blog-service
+  Issuer: blog-server
   Expire: 7200
 
 Email:

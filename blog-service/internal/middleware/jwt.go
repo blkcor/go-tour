@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/go-programming-tour-book/blog-service/pkg/app"
@@ -20,7 +19,7 @@ func JWT() gin.HandlerFunc {
 			token = c.GetHeader("token")
 		}
 		if token == "" {
-			ecode = errcode.InvalidParams
+			ecode = errcode.UnauthorizedTokenError
 		} else {
 			_, err := app.ParseToken(token)
 			if err != nil {
@@ -34,7 +33,6 @@ func JWT() gin.HandlerFunc {
 		}
 
 		if ecode != errcode.Success {
-			fmt.Println("ecode != errcode.Success,", ecode.Code())
 			response := app.NewResponse(c)
 			response.ToErrorResponse(ecode)
 			c.Abort()

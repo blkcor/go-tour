@@ -22,3 +22,4 @@
 2023/06/24 15:30:53 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 35 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687591853249182000}
 2023/06/24 15:31:41 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 35 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687591901232506000}
 2023/06/25 09:47:51 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 36 main.init.0"],"level":1,"message":"eddycjy: my name is blkcor/blog-service","time":1687657671555455000}
+2023/06/30 21:44:13 {"callers":["/Users/chenzilong/workspace/go-programming-tour-book/blog-service/main.go: 42 main.init.0"],"level":3,"message":"app.BindAndValid errs: AppKey为必填字段,AppSecret为必填字段","time":1688132653931970000}
