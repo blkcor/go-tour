@@ -22,14 +22,14 @@ func (t *TagServer) GetTagList(ctx context.Context, r *pb.GetTagListRequest) (*p
 		return nil, err
 	}
 	if body == nil || len(body) == 0 {
-		return nil, errcode.TogRPCError(errcode.NotFound)
+		return nil, errcode.ToRPCError(errcode.NotFound)
 	}
 
 	tagList := pb.GetTagListReply{}
 	err = json.Unmarshal(body, &tagList)
 
 	if err != nil {
-		return nil, errcode.TogRPCError(errcode.Fail)
+		return nil, errcode.ToRPCError(errcode.Fail)
 	}
 
 	return &tagList, nil

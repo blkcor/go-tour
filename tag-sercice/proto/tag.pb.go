@@ -208,7 +208,7 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// TagServiceClient is the client API for TagService server.
+// TagServiceClient is the client API for TagService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type TagServiceClient interface {
@@ -232,7 +232,7 @@ func (c *tagServiceClient) GetTagList(ctx context.Context, in *GetTagListRequest
 	return out, nil
 }
 
-// TagServiceServer is the server API for TagService server.
+// TagServiceServer is the server API for TagService service.
 type TagServiceServer interface {
 	GetTagList(context.Context, *GetTagListRequest) (*GetTagListReply, error)
 }

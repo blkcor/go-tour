@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/go-programming-tour-book/tag-service/pkg/errcode"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -45,7 +46,7 @@ func (a *API) GetTagList(ctx context.Context, name string) ([]byte, error) {
 	}
 	body, err := a.httpGet(ctx, fmt.Sprintf("%s?name=%s&state=1", "http://localhost:8000/api/v1/tags", name), token)
 	if err != nil {
-		return nil, err
+		return nil, errcode.ToRPCError(errcode.ErrorGetTagListFail)
 	}
 	return body, nil
 }
