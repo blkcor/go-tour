@@ -7,6 +7,7 @@ type Error struct {
 	msg  string
 }
 
+// cache error code
 var _codes = map[int]string{}
 
 func NewError(code int, msg string) *Error {
