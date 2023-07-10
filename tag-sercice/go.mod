@@ -3,28 +3,21 @@ module github.com/go-programming-tour-book/tag-service
 go 1.19
 
 require (
-	github.com/go-programming-tour-book/blog-service v0.0.0-20211007070625-fc62a2672eb7
 	github.com/golang/protobuf v1.5.3
-	google.golang.org/grpc v1.56.1
+	github.com/soheilhy/cmux v0.1.4
+	google.golang.org/grpc v1.56.2
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
-	cloud.google.com/go/compute v1.19.1 // indirect
-	cloud.google.com/go/compute/metadata v0.2.3 // indirect
-	github.com/census-instrumentation/opencensus-proto v0.4.1 // indirect
-	github.com/cespare/xxhash/v2 v2.2.0 // indirect
-	github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe // indirect
-	github.com/cncf/xds/go v0.0.0-20230607035331-e9ce68804cb4 // indirect
-	github.com/envoyproxy/go-control-plane v0.11.1-0.20230524094728-9239064ad72f // indirect
-	github.com/envoyproxy/protoc-gen-validate v0.10.1 // indirect
-	github.com/fullstorydev/grpcurl v1.8.7 // indirect
-	github.com/jhump/protoreflect v1.12.0 // indirect
-	github.com/soheilhy/cmux v0.1.4 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/golang/glog v1.1.1 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.14.5 // indirect
 	golang.org/x/net v0.12.0 // indirect
-	golang.org/x/oauth2 v0.7.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
-	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	google.golang.org/genproto v0.0.0-20230706204954-ccb25ca9f130 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20230706204954-ccb25ca9f130 // indirect
+	google.golang.org/grpc/examples v0.0.0-20230705174746-11feb0a9afd8 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
