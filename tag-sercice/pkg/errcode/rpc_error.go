@@ -32,6 +32,5 @@ func TogRPCCode(code int) codes.Code {
 	default:
 		statusCode = codes.Unknown
 	}
-
 	return statusCode
 }
