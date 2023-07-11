@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	pb "github.com/go-programming-tour-book/tag-service/proto"
 	"github.com/go-programming-tour-book/tag-service/server"
@@ -9,14 +10,21 @@ import (
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 	"log"
 	"net/http"
 	"strings"
 )
 
 var port string
+
+type httpError struct {
+	Code    int32  `json:"code,omitempty"`
+	Message string `json:"message,omitempty"`
+}
 
 func init() {
 	flag.StringVar(&port, "port", "8004", "grpc服务启动端口号")
@@ -58,6 +66,8 @@ func RunGrpcServer() *grpc.Server {
 
 func RunGrpcGatewayServer() *runtime.ServeMux {
 	endpoint := "0.0.0.0:" + port
+	//registry grpcGatewayError as http error
+	runtime.HTTPError = grpcGatewayError
 	gwmux := runtime.NewServeMux()
 	dopts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 	_ = pb.RegisterTagServiceHandlerFromEndpoint(context.Background(), gwmux, endpoint, dopts)
@@ -73,4 +83,28 @@ func GrpcHandlerFunc(grpcServer *grpc.Server, otherHandler http.Handler) http.Ha
 			otherHandler.ServeHTTP(writer, request)
 		}
 	}), &http2.Server{})
+}
+
+func grpcGatewayError(ctx context.Context, _ *runtime.ServeMux, marshaler runtime.Marshaler, w http.ResponseWriter, _ *http.Request, err error) {
+	//from error get the status
+	s, ok := status.FromError(err)
+	if !ok {
+		s = status.New(codes.Unknown, err.Error())
+	}
+	//get http error
+	httpError := httpError{
+		Code:    int32(s.Code()),
+		Message: s.Message(),
+	}
+	details := s.Details()
+	for _, detail := range details {
+		if v, ok := detail.(*pb.Error); ok {
+			httpError.Code = v.Code
+			httpError.Message = v.Message
+		}
+	}
+	resp, _ := json.Marshal(httpError)
+	w.Header().Set("Content-Type", marshaler.ContentType())
+	w.WriteHeader(runtime.HTTPStatusFromCode(s.Code()))
+	_, _ = w.Write(resp)
 }
